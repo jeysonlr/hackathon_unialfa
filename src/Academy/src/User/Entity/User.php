@@ -8,6 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\BaseEntityInterface;
 use JMS\Serializer\Annotation\Type;
 
+/**
+ *public.usuario
+ *
+ * @ORM\Table(schema="public", name="usuarios")
+ * @ORM\Entity(repositoryClass="Academy\User\Repository\UserRepository")
+ */
 class User implements BaseEntityInterface
 {
     /**
@@ -15,7 +21,7 @@ class User implements BaseEntityInterface
      * @ORM\Id
      * @Type("int")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="user_id_seq", initialValue=1, allocationSize=1)
+     * @ORM\SequenceGenerator(sequenceName="public.user_id_seq", initialValue=1, allocationSize=1)
      * @ORM\Column(name="id", type="integer", name="id")
      */
     private $id;
@@ -126,5 +132,10 @@ class User implements BaseEntityInterface
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    public function remove()
+    {
+        $this->password = null;
     }
 }

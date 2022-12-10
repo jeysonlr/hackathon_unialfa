@@ -35,8 +35,7 @@
                 "mezzio/mezzio-helpers",
                 "mezzio/mezzio-router",
                 "laminas/laminas-httphandlerrunner",
-                "mezzio/mezzio-fastroute",
-                "mezzio/mezzio-laminasviewrenderer"
+                "mezzio/mezzio-fastroute"
             ]
         }
     },
@@ -53,7 +52,6 @@
         "mezzio/mezzio": "^3.2.1",
         "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-helpers": "^5.3",
-        "mezzio/mezzio-laminasviewrenderer": "^2.2",
 
         "mezzio/mezzio-laminasrouter": "^3.0.1",
         "roave/psr-container-doctrine": "^2.1",

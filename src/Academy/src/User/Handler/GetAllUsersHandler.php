@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Academy\User\Handler;
 
-use App\Util\Enum\StatusHttp;
-use App\Service\Response\ApiResponse;
-use Psr\Http\Message\ResponseInterface;
 use Academy\User\Service\GetUserService;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Academy\User\Service\GetUserServiceInterface;
-use Academy\User\Exception\UserDatabaseException;
+use App\Service\Response\ApiResponse;
+use App\Util\Enum\StatusHttp;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class GetUserByIdHandler implements RequestHandlerInterface
+class GetAllUsersHandler implements RequestHandlerInterface
 {
     /**
      * @var GetUserServiceInterface
@@ -25,20 +24,11 @@ class GetUserByIdHandler implements RequestHandlerInterface
         $this->getUserService = $getUserService;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
-     * @throws UserDatabaseException
-     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $id = intval($request->getAttribute('id'));
-
-        $user = $this->getUserService->getUserById($id);
-        $user->remove();
+        $users = $this->getUserService->getAllUsers();
         return new ApiResponse(
-            $user,
+            $users,
             StatusHttp::OK,
             ApiResponse::SUCCESS
         );
