@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Development-only configuration.
+ *
+ * Put settings you want enabled when under development mode in this file, and
+ * check it into your repository.
+ *
+ * Developers on your team will then automatically enable them by calling on
+ * `composer development-enable`.
+ */
+
+declare(strict_types=1);
+
+use Mezzio\Container;
+use Mezzio\Middleware\ErrorResponseGenerator;
+
+return [
+    'dependencies' => [
+        'factories' => [
+            ErrorResponseGenerator::class => Container\WhoopsErrorResponseGeneratorFactory::class,
+            'Mezzio\Whoops'               => Container\WhoopsFactory::class,
+            'Mezzio\WhoopsPageHandler'    => Container\WhoopsPageHandlerFactory::class,
+        ],
+    ],
+    'whoops'       => [
+        'json_exceptions' => [
+            'display'    => true,
+            'show_trace' => true,
+            'ajax_only'  => true,
+        ],
+    ],
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'params' => [
+                    'driverClass' => Driver::class,
+                    'driverOptions' => array(PDO::ATTR_EMULATE_PREPARES => true),
+                    'charset' => 'utf8',
+                    'host' => 'tuffi.db.elephantsql.com',
+                    'port' => '5432',
+                    'user' => 'inoepokz',
+                    'password' => 'v1a_Z3r8m4ocXgdblwef5qZ1RyIFgzqb',
+                    'dbname' => 'inoepokz',
+                ],
+            ],
+        ],
+];

@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+#  docker run -p 8080:8080 adminer
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  api:
+    build: .
+    container_name: mezzio_api
+    ports:
+     - "8081:80"
+    env_file:
+      - .env
+    volumes:
+     - .:/var/www/
