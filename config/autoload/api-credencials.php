@@ -9,6 +9,7 @@ return [
                         'allowed-routes' => [
                             'get.user_byid' => ['GET'],
                             'get.users' => ['GET'],
+                            'post.users' => ['POST'],
                         ],
                         'rate-limit' => [
                             'max_requests' => 100, // 50 / seconds
@@ -17,7 +18,7 @@ return [
                     ],
                 ],
             ],
-            'open-routes' => [ 'api.ping', 'get.user_byid', 'get.users' ],
+            'open-routes' => [ 'api.ping', 'get.user_byid', 'get.users', 'post.users' ],
         ],
     ],
 ];

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Academy;
 
+use Academy\User\Handler\PostUsersHandler;
+use Academy\User\Middleware\PostUserMiddleware;
 use Mezzio\Application;
 use Psr\Container\ContainerInterface;
 use Academy\User\Handler\GetUserByIdHandler;
@@ -31,6 +33,11 @@ class RoutesDelegator
         $app->get("/v1/users", [
            GetAllUsersHandler::class,
         ], "get.users");
+
+        $app->post("/v1/users", [
+            PostUserMiddleware::class,
+            PostUsersHandler::class,
+            ], "post.users");
 
         return $app;
     }

@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Academy;
 
-use Academy\User\Handler\GetAllUsersHandler;
-use Academy\User\Handler\GetAllUsersHandlerFactory;
-use Academy\User\Handler\GetUserByIdHandler;
-use Academy\User\Handler\GetUserByIdHandlerFactory;
-use Academy\User\Service\GetUserService;
-use Academy\User\Service\GetUserServiceFactory;
+use Academy\User\Handler\PostUsersHandler;
+use Academy\User\Handler\PostUsersHandlerFactory;
 use Mezzio\Application;
+use Academy\User\Service\GetUserService;
+use Academy\User\Handler\GetAllUsersHandler;
+use Academy\User\Handler\GetUserByIdHandler;
+use Academy\User\Middleware\PostUserMiddleware;
+use Academy\User\Service\GetUserServiceFactory;
+use Academy\User\Handler\GetUserByIdHandlerFactory;
+use Academy\User\Handler\GetAllUsersHandlerFactory;
+use Academy\User\Middleware\PostUserMiddlewareFactory;
 
 /**
  * The configuration provider for the City module
@@ -49,6 +53,9 @@ class ConfigProvider
                 GetUserService::class => GetUserServiceFactory::class,
                 GetUserByIdHandler::class => GetUserByIdHandlerFactory::class,
                 GetAllUsersHandler::class => GetAllUsersHandlerFactory::class,
+
+                PostUsersHandler::class => PostUsersHandlerFactory::class,
+                PostUserMiddleware::class => PostUserMiddlewareFactory::class,
             ],
         ];
     }
