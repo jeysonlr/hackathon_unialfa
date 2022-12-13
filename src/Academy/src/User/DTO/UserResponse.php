@@ -2,55 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Academy\User\Entity;
+namespace Academy\User\DTO;
 
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntityInterface;
 use JMS\Serializer\Annotation\Type;
 
-/**
- *public.usuarios
- *
- * @ORM\Table(schema="public", name="usuarios")
- * @ORM\Entity(repositoryClass="Academy\User\Repository\UserRepository")
- */
-class User implements BaseEntityInterface
+class UserResponse
 {
     /**
      * @var int
-     * @ORM\Id
      * @Type("int")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="public.user_id_seq", initialValue=1, allocationSize=1)
-     * @ORM\Column(name="id", type="integer", name="id")
      */
     private $id;
 
     /**
      * @var string
      * @Type("string")
-     * @ORM\Column(name="nome", type="string")
      */
     private $name;
 
     /**
      * @var string
      * @Type("string")
-     * @ORM\Column(name="cpf", type="string")
      */
     private $cpf;
 
     /**
      * @var string
      * @Type("string")
-     * @ORM\Column(name="senha", type="string")
-     */
-    private $password;
-
-    /**
-     * @var string
-     * @Type("string")
-     * @ORM\Column(name="tipo", type="string")
      */
     private $type;
 
@@ -105,22 +83,6 @@ class User implements BaseEntityInterface
     /**
      * @return string
      */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -132,10 +94,5 @@ class User implements BaseEntityInterface
     public function setType(string $type): void
     {
         $this->type = $type;
-    }
-
-    public function remove()
-    {
-        $this->password = null;
     }
 }

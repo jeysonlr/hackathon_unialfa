@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Academy\User\Handler;
 
+use Throwable;
 use App\Util\Enum\StatusHttp;
 use App\Service\Response\ApiResponse;
 use Psr\Http\Message\ResponseInterface;
 use Academy\User\Service\GetUserService;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use App\Exception\BaseException\BaseException;
 use Academy\User\Service\GetUserServiceInterface;
 use Academy\User\Exception\UserDatabaseException;
 
@@ -27,20 +29,26 @@ class GetUserByIdHandler implements RequestHandlerInterface
 
     /**
      * @param ServerRequestInterface $request
-     *
      * @return ResponseInterface
-     * @throws UserDatabaseException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $id = intval($request->getAttribute('id'));
+        try {
+            $id = intval($request->getAttribute('id'));
 
-        $user = $this->getUserService->getUserById($id);
-        $user->remove();
-        return new ApiResponse(
-            $user,
-            StatusHttp::OK,
-            ApiResponse::SUCCESS
-        );
+            $user = $this->getUserService->getUserById($id);
+
+            return new ApiResponse(
+                $user,
+                StatusHttp::OK,
+                ApiResponse::SUCCESS
+            );
+        } catch (UserDatabaseException $e) {
+            return new ApiResponse($e->getMessage(), $e->getCode(), ApiResponse::ERROR, null, $e);
+        } catch (BaseException $e) {
+            return new ApiResponse($e->getCustomError(), $e->getCode(), ApiResponse::ERROR, null, $e);
+        } catch (Throwable $e) {
+            return new ApiResponse($e->getMessage(), $e->getCode(), ApiResponse::ERROR, null, $e);
+        }
     }
 }

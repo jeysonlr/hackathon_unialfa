@@ -6,6 +6,10 @@ namespace Academy;
 
 use Academy\User\Handler\PostUsersHandler;
 use Academy\User\Handler\PostUsersHandlerFactory;
+use Academy\User\Service\PostUserService;
+use Academy\User\Service\PostUserServiceFactory;
+use Academy\User\Utils\TransferObjectsToEntity;
+use Academy\User\Utils\TransferObjectsToEntityFactory;
 use Mezzio\Application;
 use Academy\User\Service\GetUserService;
 use Academy\User\Handler\GetAllUsersHandler;
@@ -56,6 +60,9 @@ class ConfigProvider
 
                 PostUsersHandler::class => PostUsersHandlerFactory::class,
                 PostUserMiddleware::class => PostUserMiddlewareFactory::class,
+
+                PostUserService::class => PostUserServiceFactory::class,
+                TransferObjectsToEntity::class => TransferObjectsToEntityFactory::class,
             ],
         ];
     }

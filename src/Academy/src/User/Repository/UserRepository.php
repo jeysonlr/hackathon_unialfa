@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Academy\User\Repository;
 
-use Academy\User\Exception\UserDatabaseException;
 use Exception;
 use Academy\User\Entity\User;
-use App\Util\Enum\ErrorMessage;
 use App\Util\Enum\StatusHttp;
+use App\Util\Enum\ErrorMessage;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Academy\User\Exception\UserDatabaseException;
 
 class UserRepository extends EntityRepository
 {
@@ -49,7 +49,7 @@ class UserRepository extends EntityRepository
      * @return User
      * @throws UserDatabaseException
      */
-    public function updateCity(User $user): User
+    public function updateUser(User $user): User
     {
         try {
             $this->getEntityManager()->merge($user);

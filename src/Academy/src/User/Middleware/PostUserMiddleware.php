@@ -49,8 +49,7 @@ class PostUserMiddleware implements MiddlewareInterface
                 User::class,
                 'json'
             );
-//            var_dump($user);
-//            exit;
+
             $this->validationService->validateEntity($user);
         } catch (BaseException $e) {
             return new ApiResponse($e->getCustomError(), $e->getCode());

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\User\Service;
 
-use Academy\User\Entity\User;
+use Academy\User\DTO\UserResponse;
 use Academy\User\Exception\UserDatabaseException;
 
 interface GetUserServiceInterface
@@ -17,8 +17,8 @@ interface GetUserServiceInterface
 
     /**
      * @param int $id
-     * @return User|null
+     * @return UserResponse|null
      * @throws UserDatabaseException
      */
-    public function getUserById(int $id): ?User;
+    public function getUserById(int $id): ?UserResponse;
 }

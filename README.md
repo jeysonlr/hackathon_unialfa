@@ -26,8 +26,15 @@ $ composer development-status
 project run port 8081
 ```
 
+## Documentation api
+```
+[Documentation](https://documenter.getpostman.com/view/7013209/2s8YzUyNDy)
+
+```
+
 ### email
 ``
 jeysonlr@gmail.com
 lucasgioricesconetto@gmail.com
+phmaia2018@gmail.com
 ``

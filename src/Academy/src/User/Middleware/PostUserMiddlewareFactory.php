@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Academy\User\Middleware;
 
 use App\Util\Serialize\SerializeUtil;
-use App\Util\Validation\ValidationService;
 use Psr\Container\ContainerInterface;
+use App\Util\Validation\ValidationService;
 
 class PostUserMiddlewareFactory
 {

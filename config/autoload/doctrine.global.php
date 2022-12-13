@@ -26,20 +26,8 @@ return [
             'orm_default' => [
                 'class' => MappingDriverChain::class,
                 'drivers' => [
-                    'Academy\City\Entity' => 'city_entity',
-                    'Academy\State\Entity' => 'state_entity',
                     'Academy\User\Entity' => 'user_entity',
                 ],
-            ],
-            'city_entity' => [
-                'class' => AnnotationDriver::class,
-                'cache' => 'array',
-                'paths' => [__DIR__ . './../../src/Academy/src/City/Entity'],
-            ],
-            'state_entity' => [
-                'class' => AnnotationDriver::class,
-                'cache' => 'array',
-                'paths' => [__DIR__ . './../../src/Academy/src/State/Entity'],
             ],
             'user_entity' => [
                 'class' => AnnotationDriver::class,
