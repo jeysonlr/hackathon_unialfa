@@ -55,4 +55,16 @@ class GetUserService implements GetUserServiceInterface
         $userRepository = $this->userRepository->findByUserId($id);
         return $this->transferObjectToEntity->transferEntityToDto($userRepository);
     }
+
+    /**
+     * @param string $cpf
+     *
+     * @return UserResponse|null
+     * @throws UserDatabaseException
+     */
+    public function getUserByCpf(string $cpf): ?UserResponse
+    {
+        $userRepository = $this->userRepository->findByUserCpf($cpf);
+        return $this->transferObjectToEntity->transferEntityToDto($userRepository);
+    }
 }

@@ -45,6 +45,8 @@ class PostUserService implements PostUserServiceInterface
         try {
             $userEntity = $this->transferObjectToEntity->transferDtoToEntity($userDto);
 
+            $userEntity->setPassword(password_hash($userEntity->getPassword(), PASSWORD_DEFAULT));
+
             $userRepository = $this->userRepository->insertUser($userEntity);
 
             return $this->transferObjectToEntity->transferEntityToDto($userRepository);

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Academy\User\Middleware;
 
+use Academy\User\Exception\UserMiddlewareException;
+use Academy\User\Service\GetUserService;
+use Academy\User\Service\GetUserServiceInterface;
+use App\Util\Enum\StatusHttp;
 use Throwable;
 use Academy\User\DTO\User;
 use App\Service\Response\ApiResponse;
@@ -27,12 +31,19 @@ class PostUserMiddleware implements MiddlewareInterface
      */
     private $jms;
 
+    /**
+     * @var GetUserServiceInterface
+     */
+    private $getUserService;
+
     public function __construct(
         SerializeUtil $jms,
-        ValidationService $validationService
+        ValidationService $validationService,
+        GetUserService $getUserService
     ) {
         $this->jms = $jms;
         $this->validationService = $validationService;
+        $this->getUserService = $getUserService;
     }
 
     /**
@@ -43,7 +54,7 @@ class PostUserMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        try {
+        try {/** @var User $user */
             $user = $this->jms->deserialize(
                 $request->getBody()->getContents(),
                 User::class,
@@ -51,6 +62,14 @@ class PostUserMiddleware implements MiddlewareInterface
             );
 
             $this->validationService->validateEntity($user);
+            $user->setCpf(str_replace(['.', '-'], '', $user->getCpf()));
+
+            if ($this->getUserService->getUserByCpf(str_replace(['.', '-'], '', $user->getCpf()))) {
+                throw new UserMiddlewareException(
+                    StatusHttp::CONFLICT,
+                    "CPF já cadastrado"
+                );
+            }
         } catch (BaseException $e) {
             return new ApiResponse($e->getCustomError(), $e->getCode());
         } catch (Throwable $e) {

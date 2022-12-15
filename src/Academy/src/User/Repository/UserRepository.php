@@ -99,4 +99,23 @@ class UserRepository extends EntityRepository
             );
         }
     }
+
+    /**
+     * @param string $cpf
+     * @return User|object|null
+     * @throws UserDatabaseException
+     */
+    public function findByUserCpf(string $cpf): ?User
+    {
+        try {
+            return $this->getEntityManager()->getRepository(User::class)
+                ->findOneBy(['cpf' => $cpf]);
+        } catch (Exception $e) {
+            throw new UserDatabaseException(
+                StatusHttp::INTERNAL_SERVER_ERROR,
+                ErrorMessage::ERROR_QUERY_A_RECORD . "cpf " . $cpf,
+                $e->getMessage()
+            );
+        }
+    }
 }

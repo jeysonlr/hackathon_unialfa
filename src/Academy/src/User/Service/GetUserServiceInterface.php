@@ -21,4 +21,12 @@ interface GetUserServiceInterface
      * @throws UserDatabaseException
      */
     public function getUserById(int $id): ?UserResponse;
+
+    /**
+     * @param string $cpf
+     *
+     * @return UserResponse|null
+     * @throws UserDatabaseException
+     */
+    public function getUserByCpf(string $cpf): ?UserResponse;
 }
