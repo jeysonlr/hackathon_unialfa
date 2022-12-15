@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace Academy;
 
-use Academy\User\Handler\PostUsersHandler;
-use Academy\User\Handler\PostUsersHandlerFactory;
-use Academy\User\Service\PostUserService;
-use Academy\User\Service\PostUserServiceFactory;
-use Academy\User\Utils\TransferObjectsToEntity;
-use Academy\User\Utils\TransferObjectsToEntityFactory;
+use Academy\Authentication\Container\JWTFactory;
+use Academy\Authentication\Service\AuthenticationTokenService;
+use Academy\Authentication\Service\AuthenticationTokenServiceFactory;
 use Mezzio\Application;
 use Academy\User\Service\GetUserService;
+use Academy\User\Service\PostUserService;
+use Academy\User\Handler\PostUsersHandler;
 use Academy\User\Handler\GetAllUsersHandler;
 use Academy\User\Handler\GetUserByIdHandler;
+use Academy\User\Utils\TransferObjectsToEntity;
 use Academy\User\Middleware\PostUserMiddleware;
 use Academy\User\Service\GetUserServiceFactory;
+use Academy\User\Service\PostUserServiceFactory;
+use Academy\User\Handler\PostUsersHandlerFactory;
 use Academy\User\Handler\GetUserByIdHandlerFactory;
 use Academy\User\Handler\GetAllUsersHandlerFactory;
+use Academy\User\Utils\TransferObjectsToEntityFactory;
 use Academy\User\Middleware\PostUserMiddlewareFactory;
+use Academy\Authentication\Handler\AuthenticationTokenHandler;
+use Academy\Authentication\Middleware\ValidationLoginMiddleware;
+use Academy\Authentication\Handler\AuthenticationTokenHandlerFactory;
+use Academy\Authentication\Middleware\ValidationLoginMiddlewareFactory;
 
 /**
  * The configuration provider for the City module
@@ -63,6 +70,12 @@ class ConfigProvider
 
                 PostUserService::class => PostUserServiceFactory::class,
                 TransferObjectsToEntity::class => TransferObjectsToEntityFactory::class,
+
+                # Authentication
+                ValidationLoginMiddleware::class => ValidationLoginMiddlewareFactory::class,
+                AuthenticationTokenHandler::class => AuthenticationTokenHandlerFactory::class,
+                AuthenticationTokenService::class => AuthenticationTokenServiceFactory::class,
+                JWTFactory::class => JWTFactory::class,
             ],
         ];
     }

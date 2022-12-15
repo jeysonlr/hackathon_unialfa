@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Academy;
 
-use Academy\User\Handler\PostUsersHandler;
-use Academy\User\Middleware\PostUserMiddleware;
+use Academy\Authentication\Handler\AuthenticationTokenHandler;
 use Mezzio\Application;
 use Psr\Container\ContainerInterface;
+use Academy\User\Handler\PostUsersHandler;
 use Academy\User\Handler\GetUserByIdHandler;
 use Academy\User\Handler\GetAllUsersHandler;
+use Academy\User\Middleware\PostUserMiddleware;
+use Academy\Authentication\Middleware\ValidationLoginMiddleware;
 
 class RoutesDelegator
 {
@@ -25,6 +27,11 @@ class RoutesDelegator
          * @var Application $app
          */
         $app = $callback();
+
+        $app->post("/v1/login", [
+            ValidationLoginMiddleware::class,
+            AuthenticationTokenHandler::class,
+        ], "authentication.post_login");
 
         $app->get("/v1/user/{id:\d+}", [
            GetUserByIdHandler::class,

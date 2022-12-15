@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\User\Service;
 
 use Academy\User\DTO\UserResponse;
+use Academy\User\Entity\User;
 use Academy\User\Repository\UserRepository;
 use Academy\User\Utils\TransferObjectsToEntity;
 use Academy\User\Exception\UserDatabaseException;
@@ -66,5 +67,16 @@ class GetUserService implements GetUserServiceInterface
     {
         $userRepository = $this->userRepository->findByUserCpf($cpf);
         return $this->transferObjectToEntity->transferEntityToDto($userRepository);
+    }
+
+    /**
+     * @param string $cpf
+     *
+     * @return User|null
+     * @throws UserDatabaseException
+     */
+    public function getUserPasswordByCpf(string $cpf): ?User
+    {
+        return $this->userRepository->findByUserCpf($cpf);
     }
 }

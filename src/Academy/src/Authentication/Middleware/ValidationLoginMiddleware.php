@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Academy\User\Middleware;
+namespace Academy\Authentication\Middleware;
 
 use Throwable;
-use Academy\User\DTO\User;
 use App\Util\Enum\StatusHttp;
 use App\Service\Response\ApiResponse;
 use App\Util\Serialize\SerializeUtil;
@@ -16,21 +15,23 @@ use App\Util\Validation\ValidationService;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\Exception\BaseException\BaseException;
+use Academy\Authentication\DTO\AuthenticationUser;
 use Academy\User\Service\GetUserServiceInterface;
-use Academy\User\Exception\UserMiddlewareException;
+use Academy\Authentication\Exception\UserNotFoundException;
+use Academy\Authentication\Exception\UserPasswordDoesntMatchException;
 use App\Util\Validation\CheckConstraints\Exception\BaseEntityViolationsException;
 
-class PostUserMiddleware implements MiddlewareInterface
+class ValidationLoginMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ValidationService
-     */
-    private $validationService;
-
     /**
      * @var SerializeUtil
      */
     private $jms;
+
+    /**
+     * @var ValidationService
+     */
+    private $validationService;
 
     /**
      * @var GetUserServiceInterface
@@ -55,29 +56,53 @@ class PostUserMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        try {/** @var User $user */
+        try {
+            /** @var AuthenticationUser $user */
             $user = $this->jms->deserialize(
                 $request->getBody()->getContents(),
-                User::class,
-                'json'
+                AuthenticationUser::class,
+                "json"
             );
 
             $this->validationService->validateEntity($user);
-            $user->setCpf(str_replace(['.', '-'], '', $user->getCpf()));
 
-            if ($this->getUserService->getUserByCpf(str_replace(['.', '-'], '', $user->getCpf()))) {
-                throw new UserMiddlewareException(
-                    StatusHttp::CONFLICT,
-                    "CPF já cadastrado"
+            $userSearch = $this->getUserService->getUserPasswordByCpf($user->getLogin());
+
+            if (!$userSearch) {
+                throw new UserNotFoundException(
+                    StatusHttp::BAD_REQUEST,
+                    'Usuario ou senha incorretos!'
                 );
             }
+
+            $this->validatePassword($user->getPassword(), $userSearch->getPassword());
         } catch (BaseException $e) {
+            return new ApiResponse($e->getCustomError(), $e->getCode());
+        } catch (BaseEntityViolationsException $e) {
             return new ApiResponse($e->getCustomError(), $e->getCode());
         } catch (Throwable $e) {
             return new ApiResponse($e->getMessage(), $e->getCode());
-        } catch (BaseEntityViolationsException $e) {
-            return new ApiResponse($e->getCustomError(), $e->getCode());
         }
-        return $handler->handle($request->withAttribute("body", $user));
+
+        return $handler->handle($request->withAttribute("user", $userSearch));
+    }
+
+    /**
+     * @param string $password
+     * @param string $hashedPassword
+     *
+     * @return bool|null
+     * @throws UserPasswordDoesntMatchException
+     */
+    private function validatePassword(string $password, string $hashedPassword): ?bool
+    {
+        if (!password_verify($password, $hashedPassword)) {
+            throw new UserPasswordDoesntMatchException(
+                StatusHttp::UNAUTHORIZED,
+                "O login ou senha estão incorretos!",
+                "O login ou senha estão incorretos!"
+            );
+        }
+        return true;
     }
 }

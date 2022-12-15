@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\User\Service;
 
 use Academy\User\DTO\UserResponse;
+use Academy\User\Entity\User;
 use Academy\User\Exception\UserDatabaseException;
 
 interface GetUserServiceInterface
@@ -29,4 +30,12 @@ interface GetUserServiceInterface
      * @throws UserDatabaseException
      */
     public function getUserByCpf(string $cpf): ?UserResponse;
+
+    /**
+     * @param string $cpf
+     *
+     * @return User|null
+     * @throws UserDatabaseException
+     */
+    public function getUserPasswordByCpf(string $cpf): ?User;
 }
