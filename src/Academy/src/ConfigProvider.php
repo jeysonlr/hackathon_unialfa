@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Academy;
 
 use Academy\Authentication\Container\JWTFactory;
+use Academy\Authentication\Middleware\AuthenticationTokenMiddleware;
+use Academy\Authentication\Middleware\AuthenticationTokenMiddlewareFactory;
 use Academy\Authentication\Service\AuthenticationTokenService;
 use Academy\Authentication\Service\AuthenticationTokenServiceFactory;
 use Academy\Imc\Handler\GetImcHandler;
@@ -89,6 +91,8 @@ class ConfigProvider
                 AuthenticationTokenHandler::class => AuthenticationTokenHandlerFactory::class,
                 AuthenticationTokenService::class => AuthenticationTokenServiceFactory::class,
                 JWTFactory::class => JWTFactory::class,
+
+                AuthenticationTokenMiddleware::class => AuthenticationTokenMiddlewareFactory::class,
             ],
         ];
     }

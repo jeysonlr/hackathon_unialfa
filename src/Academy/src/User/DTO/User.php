@@ -7,6 +7,7 @@ namespace Academy\User\DTO;
 use App\Entity\BaseEntityInterface;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class User implements BaseEntityInterface
 {
@@ -34,6 +35,10 @@ class User implements BaseEntityInterface
     /**
      * @var string
      * @Type("string")
+     * @Choice(
+     *     choices = { "admin", "ADMIN", "professional", "PROFESSIONAL", "client", "CLIENT" },
+     *     message = "As alternativas para type são: 'admin', 'professional' ou 'client'!"
+     * )
      * @NotBlank(message="O campo type é obrigatório!")
      */
     private $type;

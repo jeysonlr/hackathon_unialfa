@@ -46,7 +46,7 @@
         "composer/package-versions-deprecated": "^1.10.99",
         "doctrine/annotations": "1.10.3",
         "doctrine/orm": "^2.7",
-        "firebase/php-jwt": "^6.3",
+        "firebase/php-jwt": "5.2",
         "jms/serializer": "3.8.0",
         "laminas/laminas-component-installer": "^2.1.2",
         "laminas/laminas-config-aggregator": "^1.2",

@@ -55,7 +55,8 @@ class PostUserMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        try {/** @var User $user */
+        try {
+            /** @var User $user */
             $user = $this->jms->deserialize(
                 $request->getBody()->getContents(),
                 User::class,
@@ -64,6 +65,7 @@ class PostUserMiddleware implements MiddlewareInterface
 
             $this->validationService->validateEntity($user);
             $user->setCpf(str_replace(['.', '-'], '', $user->getCpf()));
+            $user->setType(strtolower($user->getType()));
 
             if ($this->getUserService->getUserByCpf(str_replace(['.', '-'], '', $user->getCpf()))) {
                 throw new UserMiddlewareException(
