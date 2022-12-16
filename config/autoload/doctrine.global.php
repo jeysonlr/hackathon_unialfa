@@ -27,12 +27,20 @@ return [
                 'class' => MappingDriverChain::class,
                 'drivers' => [
                     'Academy\User\Entity' => 'user_entity',
+                    'Academy\Imc\Entity'  => 'imc_entity'
                 ],
             ],
             'user_entity' => [
                 'class' => AnnotationDriver::class,
                 'cache' => 'array',
                 'paths' => [__DIR__ . './../../src/Academy/src/User/Entity'],
+
+            ],
+            'imc_entity' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [__DIR__ . './../../src/Academy/src/Imc/Entity'],
+
             ],
         ],
     ],
