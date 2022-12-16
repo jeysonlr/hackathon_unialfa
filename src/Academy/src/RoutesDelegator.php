@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Academy;
 
 use Academy\Authentication\Handler\AuthenticationTokenHandler;
+use Academy\Imc\Handler\GetImcHandler;
+use Academy\Imc\Handler\RegisterImcHandler;
+use Academy\Imc\Middleware\RegisterImcMiddleware;
 use Mezzio\Application;
 use Psr\Container\ContainerInterface;
 use Academy\User\Handler\PostUsersHandler;
@@ -45,6 +48,15 @@ class RoutesDelegator
             PostUserMiddleware::class,
             PostUsersHandler::class,
             ], "post.users");
+
+        $app->post("/v1/imc", [
+            RegisterImcMiddleware::class,
+            RegisterImcHandler::class
+        ], "register.imc");
+
+        $app->get("/v1/imc", [
+            GetImcHandler::class,
+        ], "get.imc");
 
         return $app;
     }
