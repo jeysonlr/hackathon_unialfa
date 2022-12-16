@@ -47,7 +47,7 @@ class RoutesDelegator
         $app->post("/v1/users", [
             PostUserMiddleware::class,
             PostUsersHandler::class,
-            ], "post.users");
+        ], "post.users");
 
         $app->post("/v1/imc", [
             RegisterImcMiddleware::class,

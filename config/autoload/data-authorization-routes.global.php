@@ -10,5 +10,8 @@ return [
         'get.user_byid' => ['admin', 'professional', 'client'],
         'get.users' => ['admin', 'professional', 'client'],
         'post.users' => ['admin'],
+
+        'register.imc' => ['admin', 'professional'],
+        'get.imc' => ['admin', 'professional', 'client'],
     ]
 ];

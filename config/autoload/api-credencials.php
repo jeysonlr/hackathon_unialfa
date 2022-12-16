@@ -18,7 +18,7 @@ return [
                     ],
                 ],
             ],
-            'open-routes' => [ 'api.ping', 'get.user_byid', 'get.users', 'post.users' ],
+            'open-routes' => [ 'api.ping' ],
         ],
     ],
 ];
