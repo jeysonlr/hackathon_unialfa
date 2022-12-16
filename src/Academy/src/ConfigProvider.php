@@ -28,6 +28,8 @@ use Academy\Authentication\Handler\AuthenticationTokenHandler;
 use Academy\Authentication\Middleware\ValidationLoginMiddleware;
 use Academy\Authentication\Handler\AuthenticationTokenHandlerFactory;
 use Academy\Authentication\Middleware\ValidationLoginMiddlewareFactory;
+use App\Container\CorsFactory;
+use Tuupola\Middleware\CorsMiddleware;
 
 /**
  * The configuration provider for the City module
@@ -80,6 +82,8 @@ class ConfigProvider
                 JWTFactory::class => JWTFactory::class,
 
                 AuthenticationTokenMiddleware::class => AuthenticationTokenMiddlewareFactory::class,
+
+                CorsMiddleware::class => CorsFactory::class,
             ],
         ];
     }

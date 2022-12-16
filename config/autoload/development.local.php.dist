@@ -14,11 +14,15 @@ declare(strict_types=1);
 
 use Mezzio\Container;
 use Mezzio\Middleware\ErrorResponseGenerator;
+use App\Container\CorsFactory;
+use Tuupola\Middleware\CorsMiddleware;
 
 return [
     'dependencies' => [
-        'factories' => [],
-    ],
+        'invokables' => [],
+        'factories'  => [
+            CorsMiddleware::class => CorsFactory::class,
+        ],
     'whoops'       => [
         'json_exceptions' => [
         ],
