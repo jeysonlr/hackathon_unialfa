@@ -8,9 +8,14 @@ use Exception;
 use Firebase\JWT\JWT;
 use Academy\User\Entity\User;
 use App\Util\Enum\StatusHttp;
+use Firebase\JWT\ExpiredException;
 use Academy\Authentication\DTO\Token;
+use Firebase\JWT\SignatureInvalidException;
 use Academy\Authentication\Exception\CreateTokenException;
+use Academy\Authentication\Exception\ExpiredTokenException;
+use Academy\Authentication\Exception\InvalidTokenException;
 use Academy\Authentication\Exception\RequiredValueRequestException;
+use Academy\Authentication\Exception\CheckSignatureInvalidException;
 
 class AuthenticationTokenService
 {
@@ -70,7 +75,8 @@ class AuthenticationTokenService
             "nbf" => $createdAt,
             "exp" => $expirationTime,
             "data" => [
-
+                "user_id" => $user->getId(),
+                "type" => $user->getType()	
             ]
         ];
 
@@ -98,4 +104,33 @@ class AuthenticationTokenService
             );
         }
     }
+
+   /**
+    * @param string $token
+    * @return object|null
+    * @throws CheckSignatureInvalidException
+    * @throws ExpiredTokenException
+    * @throws InvalidTokenException
+    */
+   public function decode(string $token): ?object
+   {
+       try {
+           return $this->jwt->decode($token, base64_decode($this->key), [$this->algorithm]);
+       } catch (ExpiredException $e) {
+           throw new ExpiredTokenException(
+               StatusHttp::UNAUTHORIZED,
+               'O token informado está expirado'
+           );
+       } catch (SignatureInvalidException $e){
+           throw new CheckSignatureInvalidException(
+               StatusHttp::UNAUTHORIZED,
+               'A chave de assinatura está inválida'
+           );
+       } catch (Exception $e) {
+           throw new InvalidTokenException(
+               StatusHttp::UNAUTHORIZED,
+               'O token informado está inválidok'
+           );
+       }
+   }
 }
