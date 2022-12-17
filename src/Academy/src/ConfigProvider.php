@@ -11,6 +11,8 @@ use Academy\Authentication\Service\AuthenticationTokenService;
 use Academy\Authentication\Service\AuthenticationTokenServiceFactory;
 use Academy\Imc\Handler\GetImcHandler;
 use Academy\Imc\Handler\GetImcHandlerFactory;
+use Academy\Imc\Handler\ImcAggregateByProfissionalHandler;
+use Academy\Imc\Handler\ImcAggregateByProfissionalHandlerFactory;
 use Academy\Imc\Handler\RegisterImcHandler;
 use Academy\Imc\Handler\RegisterImcHandlerFactory;
 use Academy\Imc\Middleware\RegisterImcMiddleware;
@@ -86,6 +88,7 @@ class ConfigProvider
                 RegisterImcMiddleware::class => RegisterImcMiddlewareFactory::class,
                 RegisterImcHandler::class    => RegisterImcHandlerFactory::class,
                 GetImcHandler::class         => GetImcHandlerFactory::class,
+                ImcAggregateByProfissionalHandler::class => ImcAggregateByProfissionalHandlerFactory::class,
                 ImcService::class            => ImcServiceFactory::class,
 
                 # Authentication

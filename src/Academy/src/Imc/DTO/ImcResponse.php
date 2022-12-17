@@ -38,8 +38,14 @@ final class ImcResponse
     private $height;
 
     /**
+     * @var float
+     * @Type("float")
+     */
+    private $result;
+
+    /**
      * @var DateTime
-     * @Type("datetime")
+     * @Type("DateTime")
      */
     private $createdAt;
 
@@ -49,6 +55,7 @@ final class ImcResponse
         int $profissionalId,
         float $weight,
         float $height,
+        float $result,
         DateTime $createdAt
     )
     {
@@ -57,6 +64,7 @@ final class ImcResponse
         $this->profissionalId = $profissionalId;
         $this->weight = $weight;
         $this->height = $height;
+        $this->result = $result;
         $this->createdAt =  $createdAt;
     }
 
@@ -66,9 +74,66 @@ final class ImcResponse
         int $profissionalId,
         float $weight,
         float $height,
+        float $result,
         DateTime $createdAt
     ): ImcResponse {
-        return new ImcResponse($id, $clientId, $profissionalId, $weight,  $height,  $createdAt);
+        return new ImcResponse($id, $clientId, $profissionalId, $weight,  $height, $result, $createdAt);
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClientId(): int
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProfissionalId(): int
+    {
+        return $this->profissionalId;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeight(): float
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @return float
+     */
+    public function getHeight(): float
+    {
+        return $this->height;
+    }
+
+    /**
+     * @return float
+     */
+    public function getResult(): float
+    {
+        return $this->result;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
     }
 
     public function toArray(): array
@@ -79,7 +144,8 @@ final class ImcResponse
             'profissionalId' => $this->profissionalId,
             'weight' => $this->weight,
             'height' => $this->height,
-
+            'result' => $this->result,
+            'createdAt' => $this->createdAt->format('d-m-Y h:m:s')
         ];
     }
 }

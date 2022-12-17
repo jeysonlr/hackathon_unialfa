@@ -2,8 +2,12 @@
 
 namespace Academy\Imc\Middleware;
 
+use Academy\Authentication\Exception\UserNotFoundException;
 use Academy\Imc\Entity\Imc;
 use Academy\Imc\Service\ImcServiceInterface;
+use Academy\User\Exception\UserDatabaseException;
+use Academy\User\Exception\UsersNotFoundException;
+use Academy\User\Service\GetUserServiceInterface;
 use App\Exception\BaseException\BaseException;
 use App\Service\Response\ApiResponse;
 use App\Util\Enum\StatusHttp;
@@ -29,13 +33,18 @@ final class RegisterImcMiddleware implements MiddlewareInterface
     private $jms;
 
     /**
-     * @var ImcServiceInterface
+     * @var GetUserServiceInterface
      */
-    private $imcService;
+    private $getUserService;
 
-    public function __construct(SerializeUtil $jms, ValidationService $validationService) {
+    public function __construct(
+        SerializeUtil $jms,
+        ValidationService $validationService,
+        GetUserServiceInterface $getUserService
+    ) {
         $this->jms = $jms;
         $this->validationService = $validationService;
+        $this->getUserService = $getUserService;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -43,6 +52,10 @@ final class RegisterImcMiddleware implements MiddlewareInterface
         try {
             /** @var Imc $imc */
             $imc = $this->jms->deserialize($request->getBody()->getContents(), Imc::class, 'json');
+            $imc->fillDate();
+
+            $this->checkUserExists($imc->getClientId());
+            $this->checkUserExists($imc->getProfissionalId());
 
             $this->validationService->validateEntity($imc);
         } catch (BaseEntityViolationsException|BaseException $e) {
@@ -52,5 +65,18 @@ final class RegisterImcMiddleware implements MiddlewareInterface
         }
 
         return $handler->handle($request->withAttribute("body", $imc));
+    }
+
+    /**
+     * @throws UserDatabaseException|UsersNotFoundException
+     */
+    private function checkUserExists(int $userId): void
+    {
+        if(is_null($this->getUserService->getUserById($userId))) {
+            throw new UsersNotFoundException(
+                StatusHttp::NOT_FOUND,
+                sprintf('Usuário informado inexistente: %s', $userId)
+            );
+        }
     }
 }

@@ -17,5 +17,6 @@ CREATE TABLE imc (
                      profissional_id integer NOT NULL,
                      peso float NOT NULL,
                      altura float  NOT NULL,
+                     resultado float NOT NULL,
                      data_hora DATE NOT NULL DEFAULT NOW()
 );

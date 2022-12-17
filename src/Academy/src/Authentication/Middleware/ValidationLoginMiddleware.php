@@ -71,7 +71,7 @@ class ValidationLoginMiddleware implements MiddlewareInterface
             if (!$userSearch) {
                 throw new UserNotFoundException(
                     StatusHttp::BAD_REQUEST,
-                    'Usuario ou senha incorretos!'
+                    'Usuário ou senha incorretos!'
                 );
             }
 

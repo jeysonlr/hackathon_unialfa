@@ -2,10 +2,12 @@
 
 namespace Academy\Imc\Service;
 
+use Academy\Imc\DTO\ImcCollection;
 use Academy\Imc\DTO\ImcResponse;
 use Academy\Imc\Entity\Imc;
 use Academy\Imc\Exception\ImcDatabaseException;
 use Academy\Imc\Repository\ImcRepository;
+use App\Exception\SQLFileNotFoundException;
 
 final class ImcService implements ImcServiceInterface
 {
@@ -29,16 +31,29 @@ final class ImcService implements ImcServiceInterface
     }
 
     /**
-     * @return array|ImcResponse[]
+     * @return ImcCollection
      * @throws ImcDatabaseException
      */
-    public function findAll(): array
+    public function findAll(): ImcCollection
     {
         $imcResults = $this->repository->all();
 
-        return array_map(function ($imc) {
-            return $this->imcEntityToImcResponse($imc);
-        }, $imcResults);
+        return new ImcCollection(
+            array_map(function ($imc) {
+                return $this->imcEntityToImcResponse($imc);
+            }, $imcResults)
+        );
+    }
+
+    /**
+     * @param int $profissionalId
+     * @return array
+     * @throws ImcDatabaseException
+     * @throws SQLFileNotFoundException
+     */
+    public function findResultByProfissionalId(int $profissionalId): array
+    {
+        return $this->repository->findResultByProfissionalId($profissionalId);
     }
 
     /**
@@ -65,6 +80,7 @@ final class ImcService implements ImcServiceInterface
             $imc->getProfissionalId(),
             $imc->getWeight(),
             $imc->getHeight(),
+            $imc->getResult(),
             $imc->getCreatedAt()
         );
     }

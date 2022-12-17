@@ -53,8 +53,15 @@ class Imc implements BaseEntityInterface
     private $height;
 
     /**
+     * @var float
+     * @Type("float")
+     * @ORM\Column(name="resultado", type="float")
+     */
+    private $result;
+
+    /**
      * @var DateTime
-     * @Type("datetime")
+     * @Type("DateTime")
      * @ORM\Column(name="data_hora", type="datetime")
      */
     private $createdAt;
@@ -100,10 +107,23 @@ class Imc implements BaseEntityInterface
     }
 
     /**
+     * @return float
+     */
+    public function getResult(): float
+    {
+        return $this->result;
+    }
+
+    /**
      * @return DateTime
      */
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    public function fillDate()
+    {
+        $this->createdAt = new DateTime();
     }
 }

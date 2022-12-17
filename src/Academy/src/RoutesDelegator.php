@@ -6,6 +6,7 @@ namespace Academy;
 
 use Academy\Authentication\Handler\AuthenticationTokenHandler;
 use Academy\Imc\Handler\GetImcHandler;
+use Academy\Imc\Handler\ImcAggregateByProfissionalHandler;
 use Academy\Imc\Handler\RegisterImcHandler;
 use Academy\Imc\Middleware\RegisterImcMiddleware;
 use Mezzio\Application;
@@ -48,6 +49,10 @@ class RoutesDelegator
             PostUserMiddleware::class,
             PostUsersHandler::class,
         ], "post.users");
+
+        $app->get("/v1/imc/report/profissional/{id:\d+}", [
+            ImcAggregateByProfissionalHandler::class,
+        ], "get.imc_by_profissional");
 
         $app->post("/v1/imc", [
             RegisterImcMiddleware::class,

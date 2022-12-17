@@ -13,5 +13,6 @@ return [
 
         'register.imc' => ['admin', 'professional'],
         'get.imc' => ['admin', 'professional', 'client'],
+        'get.imc_by_profissional' => ['admin', 'professional']
     ]
 ];
