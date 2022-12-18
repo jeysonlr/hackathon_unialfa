@@ -1,40 +1,30 @@
-### run project
+## API Smart IMC
+
+### Arquitetura da solução
+
+![Fluxograma simples](./data/arquitetura.png)
+
+### Documentação e API
+#### [API](https://kpj3vt8zf2.execute-api.sa-east-1.amazonaws.com) |  [Documentação](https://documenter.getpostman.com/view/5059639/2s8YzZPJxB)
+
+
+### Comandos para executar o Projeto no ambiente local
+
+#### Buildar e executar
 ```
+cp .env-example .env
+
 docker-compose up -d --build
 ```
 
-### enter container for install dependencies
+#### Instalar as dependências da aplicação PHP
 ```
 docker exec -it mezzio_api bash
 
 composer install
 ```
 
-### To disable development mode
-
-```bash
-$ composer development-disable
-```
-
-### Development mode status
-
-```bash
-$ composer development-status
-```
-
-```
-project run port 8081
-```
-
-## Documentation api
-```
-[Documentation](https://documenter.getpostman.com/view/5059639/2s8YzZPJxB)
-
-```
-
-### email
+##### Contato
 ``
-jeysonlr@gmail.com
-lucasgioricesconetto@gmail.com
-phmaia2018@gmail.com
+jeysonlr@gmail.com | lucasgioricesconetto@gmail.com | phmaia2018@gmail.com
 ``
