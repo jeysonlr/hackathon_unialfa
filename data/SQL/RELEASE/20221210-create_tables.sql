@@ -18,5 +18,5 @@ CREATE TABLE imc (
                      peso float NOT NULL,
                      altura float  NOT NULL,
                      resultado float NOT NULL,
-                     data_hora DATE NOT NULL DEFAULT NOW()
+                     data_hora TIMESTAMP NOT NULL DEFAULT NOW()
 );
